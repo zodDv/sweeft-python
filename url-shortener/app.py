@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 def create_tables():
     db.create_all()
 
-class Urls(db.Model):
+class Urls(db.Model):    # database table
     id_ = db.Column("id_", db.Integer, primary_key=True)
     long = db.Column("long", db.String())
     short = db.Column("short", db.String(10))
@@ -24,7 +24,7 @@ class Urls(db.Model):
         self.long = long
         self.short = short
 
-def gen_random_short_id():
+def gen_random_short_id():  # getting random short id 
     string_length = 9
     letters = string.ascii_letters + string.digits
     return ''.join(random.choice(letters) for i in range(string_length))
@@ -36,7 +36,7 @@ def shorten():
     short_url = gen_random_short_id()
     validate = validators.url(url_received)
     print(validate)
-    if not validate:
+    if not validate:  # check if the url is valid
         return 'Validate URL!'
     new_url = Urls(url_received, short_url)
     db.session.add(new_url)
@@ -50,7 +50,7 @@ def shorten_custom():
     validate = validators.url(url_received)
     if not validate:
         return 'Validate URL!'
-    if len(short_url) != 9:
+    if len(short_url) != 9:  # make sure that custom short id is valid
         return 'Invalid short id'
     found_url = db.session.query(Urls).filter(Urls.short == short_url).first()
     if (found_url is None):
@@ -62,7 +62,7 @@ def shorten_custom():
     return 'URL is already used'
 
 @app.route('/<short_id>', methods=['GET'])
-def get_short(short_id):
+def get_short(short_id):  # redirect to long url
     got_short = db.session.query(Urls).filter(Urls.short==short_id).first()
     got_short.count_visited += 1
     db.session.commit()
