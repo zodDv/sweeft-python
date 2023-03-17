@@ -25,7 +25,7 @@ class Urls(db.Model):    # database table
         self.short = short
 
 def gen_random_short_id():  # getting random short id 
-    string_length = 9
+    string_length = 9 # number of characters in short id
     letters = string.ascii_letters + string.digits
     return ''.join(random.choice(letters) for i in range(string_length))
 
@@ -63,7 +63,9 @@ def shorten_custom():
 
 @app.route('/<short_id>', methods=['GET'])
 def get_short(short_id):  # redirect to long url
-    got_short = db.session.query(Urls).filter(Urls.short==short_id).first()
+    got_short = db.session.query(Urls).filter(Urls.short==short_id).first()    
+    if(got_short is None):
+        return "Url not found"
     got_short.count_visited += 1
     db.session.commit()
     return redirect(got_short.long)
@@ -72,4 +74,3 @@ def get_short(short_id):  # redirect to long url
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
-
