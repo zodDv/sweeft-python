@@ -32,7 +32,9 @@ http://127.0.0.1:5000/ - POST - body: json(url): gives shortened version of prov
 
 example:
 {
+
     "url": "https://www.youtube.com/watch?v=Zv1645UtH9w"
+
 }
 
 http://127.0.0.1:5000/custom - POST - body: json(url, short_id): gives shortened version of provided url with custom short id
@@ -40,8 +42,10 @@ http://127.0.0.1:5000/custom - POST - body: json(url, short_id): gives shortened
 
 example:
 {
+
     "url": "https://www.youtube.com/watch?v=Zv1645UtH9w",
     "short_id": "customidd"
+    
 }
 
 
